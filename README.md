@@ -67,7 +67,7 @@ To get a copy of this project up and running on your local machine, follow these
 The project is structured as follows:
 
 ```
-programming3-coursework/
+programming-3-cw/
   ├── frontend/               # Front-end React application
   ├── backend/                # Back-end Spring Boot application
   ├── doc/                    # Documentation files
