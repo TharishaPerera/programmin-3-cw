@@ -1,13 +1,8 @@
 package com.tharishaperera.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.tharishaperera.config.enums.UserType;
 
 public class User {
-    public List<User> user = new ArrayList<User>();
-
     private Long userId;
     private String firstName;
     private String lastName;

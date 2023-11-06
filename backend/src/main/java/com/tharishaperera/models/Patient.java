@@ -1,21 +1,18 @@
 package com.tharishaperera.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import com.tharishaperera.config.enums.Status;
 import com.tharishaperera.config.enums.UserType;
 
-enum RegFeeStatus {
-    PENDING,
-    PAID
-}
 
 public class Patient extends User {
     private String address;
-    private Date dob;
-    private RegFeeStatus regFeeStatus;
+    private LocalDate dob;
+    private Status regFeeStatus;
     
     public Patient(Long userId, String firstName, String lastName, String email, Long mobile, UserType userType,
-            String address, Date dob, RegFeeStatus regFeeStatus) {
+            String address, LocalDate dob, Status regFeeStatus) {
         super(userId, firstName, lastName, email, mobile, userType);
         this.address = address;
         this.dob = dob;
@@ -27,16 +24,16 @@ public class Patient extends User {
     public void setAddress(String address) {
         this.address = address;
     }
-    public Date getDob() {
+    public LocalDate getDob() {
         return dob;
     }
-    public void setDob(Date dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
-    public RegFeeStatus getRegFeeStatus() {
+    public Status getRegFeeStatus() {
         return regFeeStatus;
     }
-    public void setRegFeeStatus(RegFeeStatus regFeeStatus) {
+    public void setRegFeeStatus(Status regFeeStatus) {
         this.regFeeStatus = regFeeStatus;
     }
 }

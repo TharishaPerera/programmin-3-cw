@@ -2,10 +2,9 @@ package com.tharishaperera.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.tharishaperera.models.User;
+import com.tharishaperera.utils.utils;
 
 @Service
 public class UserService {
@@ -18,7 +17,7 @@ public class UserService {
 
     // create a user
     public User createUser(User user) {
-        user.setUserId(generateTaskId());
+        user.setUserId(utils.generateId());
         userList.add(user);
         return user;
     }
@@ -36,8 +35,6 @@ public class UserService {
     // update user
     public User updateUser(Long id, User updatedUser) {
         User existingUser = getUserById(id);
-        System.out.println(existingUser);
-        System.out.println(existingUser);
         if (existingUser != null) {
             existingUser.setFirstName(updatedUser.getFirstName());
             existingUser.setLastName(updatedUser.getLastName());
@@ -52,10 +49,5 @@ public class UserService {
     public boolean deleteUser(Long id) {
         boolean deleteStatus = userList.removeIf(user -> user.getUserId().equals(id));
         return deleteStatus; 
-    }
-
-    // generate a simple incrementing ID
-    private Long generateTaskId() {
-        return System.currentTimeMillis();
     }
 }
