@@ -10,7 +10,7 @@ import com.tharishaperera.utils.utils;
 
 @Service
 public class TreatmentTypeService {
-    private List<TreatmentType> treatmentTypesList = new ArrayList<>();
+    private List<TreatmentType> treatmentTypesList = new ArrayList<TreatmentType>();
 
     // get all treatment types
     public List<TreatmentType> getAllTreatmentTypes() {
@@ -29,7 +29,7 @@ public class TreatmentTypeService {
     
     // get selected treatments by array of ids
     public List<TreatmentType> getSelectTreatmentTypes(Long[] ids) {
-        List<TreatmentType> selectedList = new ArrayList<>();
+        List<TreatmentType> selectedList = new ArrayList<TreatmentType>();
         for(Long id: ids) {
             selectedList.add(getTreatmentTypeById(id));
         }

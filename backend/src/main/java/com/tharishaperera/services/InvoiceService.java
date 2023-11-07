@@ -11,7 +11,7 @@ import com.tharishaperera.utils.utils;
 
 @Service
 public class InvoiceService {
-    private List<Invoice> invoiceList = new ArrayList<>();
+    private List<Invoice> invoiceList = new ArrayList<Invoice>();
 
     // get all invoices
     public List<Invoice> getAllInvoices() {
@@ -40,7 +40,7 @@ public class InvoiceService {
 
     // get invoice by patient id
     public List<Invoice> getInvoicesByPatientId(Long id) {
-        List<Invoice> userInvoices = new ArrayList<>();
+        List<Invoice> userInvoices = new ArrayList<Invoice>();
         for (Invoice invoice : invoiceList) {
             if (invoice.getAppointment().getPatient().getUserId().equals(id)) {
                 userInvoices.add(invoice);

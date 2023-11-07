@@ -10,7 +10,7 @@ import com.tharishaperera.utils.utils;
 
 @Service
 public class PaymentService {
-    private List<Payment> paymentList = new ArrayList<>();
+    private List<Payment> paymentList = new ArrayList<Payment>();
 
     // get payment by id
     public Payment getPaymentById(Long id) {

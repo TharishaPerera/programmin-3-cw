@@ -10,7 +10,7 @@ import com.tharishaperera.utils.utils;
 
 @Service
 public class TreatmentService {
-    private List<Treatment> treatmentsList = new ArrayList<>();
+    private List<Treatment> treatmentsList = new ArrayList<Treatment>();
 
     // get all treatments 
     public List<Treatment> getAllTreatments() {
