@@ -43,7 +43,6 @@ public class PatientService {
             existingPatient.setUserType(updatedPatient.getUserType());
             existingPatient.setAddress(updatedPatient.getAddress());
             existingPatient.setDob(updatedPatient.getDob());
-            existingPatient.setRegFeeStatus(updatedPatient.getRegFeeStatus());
         }
         return existingPatient;
     }

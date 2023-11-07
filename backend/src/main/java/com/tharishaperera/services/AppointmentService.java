@@ -49,6 +49,16 @@ public class AppointmentService {
             existingAppointment.setAppointmentTime(appointment.getAppointmentTime());
             existingAppointment.setPatient(appointment.getPatient());
             existingAppointment.setStatus(appointment.getStatus());
+            existingAppointment.setRegFeeStatus(appointment.getRegFeeStatus());
+        }
+        return existingAppointment;
+    }
+
+    // update registration fee status
+    public Appointment updateRegistrationFee(Long id, Appointment appointment) {
+        Appointment existingAppointment = getAppointmentById(id);
+        if (existingAppointment != null) {
+            existingAppointment.setRegFeeStatus(appointment.getRegFeeStatus());
         }
         return existingAppointment;
     }
