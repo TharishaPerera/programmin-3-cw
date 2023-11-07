@@ -9,8 +9,8 @@ public class Appointment {
     private LocalDate appointmentDate;
     private String appointmentTime;
     private Patient patient;
-    private Status status;
-    private Status regFeeStatus;
+    private Status status = Status.PENDING;
+    private Status regFeeStatus = Status.PENDING;
     
     public Appointment(Long appointmentId, LocalDate appointmentDate, String appointmentTime, Patient patient,
             Status status, Status regFeeStatus) {
