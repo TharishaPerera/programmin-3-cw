@@ -16,7 +16,7 @@ import com.tharishaperera.models.Treatment;
 import com.tharishaperera.services.TreatmentService;
 
 @RestController
-@RequestMapping("/api/treatment")
+@RequestMapping("/api/treatments")
 public class TreatmentController {
     @Autowired
     private TreatmentService treatmentService;
