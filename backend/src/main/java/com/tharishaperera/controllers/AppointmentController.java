@@ -40,7 +40,6 @@ public class AppointmentController {
     // get appointment by date
     @GetMapping("/bydate")
     public List<Appointment> getAppointmentsByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        System.out.println(date);
         return appointmentService.getAppointmentsByDate(date);
     }
 

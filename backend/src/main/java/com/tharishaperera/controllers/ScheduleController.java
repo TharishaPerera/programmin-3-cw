@@ -2,6 +2,7 @@ package com.tharishaperera.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +18,10 @@ import com.tharishaperera.services.ScheduleService;
 @RestController
 @RequestMapping("/api/schedules")
 public class ScheduleController {
+    @Autowired
     private ScheduleService scheduleService;
 
-    // get all appointments
+    // get all schedules
     @GetMapping
     public List<Schedule> getAllSchedules() {
         return scheduleService.getAllSchedules();
