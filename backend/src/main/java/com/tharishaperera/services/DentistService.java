@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Dentist;
+import com.tharishaperera.utils.SecurityConfig;
 import com.tharishaperera.utils.utils;
 
 @Service
@@ -19,6 +20,7 @@ public class DentistService {
     // create a dentist
     public Dentist createDentist(Dentist dentist) {
         dentist.setUserId(utils.generateId());
+        dentist.setPassword(SecurityConfig.hashPassword(dentist.getPassword()));
         dentistList.add(dentist);
         return dentist;
     }
@@ -44,7 +46,7 @@ public class DentistService {
             existing.setUserType(dentist.getUserType());
             existing.setQualification(dentist.getQualification());
             existing.setSpecialization(dentist.getSpecialization());
-            existing.setPassword(dentist.getPassword());
+            existing.setPassword(SecurityConfig.hashPassword(dentist.getPassword()));
         }
         return existing;
     }
