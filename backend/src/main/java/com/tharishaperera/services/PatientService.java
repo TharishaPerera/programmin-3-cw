@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.tharishaperera.models.Patient;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.CheckExistingEmail;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class PatientService {
-    public List<Patient> patientList = new ArrayList<Patient>();
+    public static List<Patient> patientList = new ArrayList<Patient>();
     
     // get all patients
     public List<Patient> getAllPatients() {
@@ -17,7 +18,10 @@ public class PatientService {
 
     // create a patient
     public Patient createPatient(Patient patient) {
-        patient.setUserId(utils.generateId());
+        if (CheckExistingEmail.checkEmailExists(patient.getEmail())) {
+            return null;
+        }
+        patient.setUserId(Utils.generateId());
         patientList.add(patient);
         return patient;
     }

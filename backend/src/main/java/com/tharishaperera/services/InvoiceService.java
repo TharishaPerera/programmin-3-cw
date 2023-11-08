@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Invoice;
 import com.tharishaperera.models.TreatmentType;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class InvoiceService {
@@ -51,7 +51,7 @@ public class InvoiceService {
 
     // create invoice 
     public Invoice createInvoice(Invoice invoice) {
-        invoice.setInvoiceId(utils.generateId());
+        invoice.setInvoiceId(Utils.generateId());
         invoice.setTotalAmount(calculateTotalAmount(invoice.getTreatment().getTreatmentType()));
         invoiceList.add(invoice);
         return invoice;

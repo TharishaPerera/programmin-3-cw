@@ -6,12 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Receptionist;
+import com.tharishaperera.utils.CheckExistingEmail;
 import com.tharishaperera.utils.SecurityConfig;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class ReceptionistService {
-    public List<Receptionist> receptionistsList = new ArrayList<Receptionist>();
+    public static List<Receptionist> receptionistsList = new ArrayList<Receptionist>();
     
     // get all receptionists
     public List<Receptionist> getAllReceptionists() {
@@ -20,7 +21,10 @@ public class ReceptionistService {
 
     // create a receptionists
     public Receptionist createReceptionist(Receptionist receptionist) {
-        receptionist.setUserId(utils.generateId());
+        if (CheckExistingEmail.checkEmailExists(receptionist.getEmail())) {
+            return null;
+        }
+        receptionist.setUserId(Utils.generateId());
         receptionist.setPassword(SecurityConfig.hashPassword(receptionist.getPassword()));
         receptionistsList.add(receptionist);
         return receptionist;

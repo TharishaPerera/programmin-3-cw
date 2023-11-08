@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.tharishaperera.models.User;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class UserService {
@@ -17,7 +17,7 @@ public class UserService {
 
     // create a user
     public User createUser(User user) {
-        user.setUserId(utils.generateId());
+        user.setUserId(Utils.generateId());
         userList.add(user);
         return user;
     }

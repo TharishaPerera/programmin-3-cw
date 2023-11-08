@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Treatment;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class TreatmentService {
@@ -39,7 +39,7 @@ public class TreatmentService {
     
     // create a treatment 
     public Treatment createTreatment(Treatment treatment) {
-        treatment.setTreatmentId(utils.generateId());
+        treatment.setTreatmentId(Utils.generateId());
         treatmentsList.add(treatment);
         return treatment;
     }

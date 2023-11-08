@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Appointment;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class AppointmentService {
@@ -36,7 +36,7 @@ public class AppointmentService {
 
     // create new appointment
     public Appointment createAppointment(Appointment appointment) {
-        appointment.setAppointmentId(utils.generateId());
+        appointment.setAppointmentId(Utils.generateId());
         appointmentList.add(appointment);
         return appointment;
     }

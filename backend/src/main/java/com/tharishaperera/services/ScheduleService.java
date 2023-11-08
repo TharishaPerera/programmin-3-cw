@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Schedule;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class ScheduleService {
@@ -40,7 +40,7 @@ public class ScheduleService {
 
     // create schedule
     public Schedule createSchedule(Schedule schedule) {
-        schedule.setScheduleId(utils.generateId());
+        schedule.setScheduleId(Utils.generateId());
         scheduleList.add(schedule);
         return schedule;
     }

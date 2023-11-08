@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Payment;
-import com.tharishaperera.utils.utils;
+import com.tharishaperera.utils.Utils;
 
 @Service
 public class PaymentService {
@@ -34,7 +34,7 @@ public class PaymentService {
 
     // create payment
     public Payment createPayment(Payment payment) {
-        payment.setPaymentId(utils.generateId());
+        payment.setPaymentId(Utils.generateId());
         payment.setAmount(payment.getInvoice().getTotalAmount());
         paymentList.add(payment);
         return payment;
