@@ -1,6 +1,7 @@
 package com.tharishaperera.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import com.tharishaperera.services.PaymentService;
 
 @RestController
 @RequestMapping("/api/payments")
+@CrossOrigin(origins = "${frontend.allowed-origin}")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
