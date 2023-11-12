@@ -82,10 +82,10 @@ const Appointments: React.FC = () => {
 
     const appointment = await response.json();
     console.log(appointment);
-    
+
     if (appointment && appointment.status === "PENDING") {
       appointment.status = "COMPLETE";
-    } else if(appointment && appointment.status === "COMPLETE") { 
+    } else if (appointment && appointment.status === "COMPLETE") {
       appointment.status = "PENDING";
     }
     
@@ -157,19 +157,24 @@ const Appointments: React.FC = () => {
         console.error("Error:", error);
         toast.error("Something went wrong");
       });
-  }
+  };
 
   const handleEdit = async (appointmentId: number) => {
-    window.location.href = 'appointments/update/' + appointmentId;
-  }
+    window.location.href = "appointments/update/" + appointmentId;
+  };
 
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
         <h2 className="text-center text-2xl font-semibold">Appointments</h2>
-        <Link to="/appointments/create" className="">
-          <Button className="uppercase">Create</Button>
-        </Link>
+        <div className="space-x-2">
+          <Link to="/home">
+            <Button className="uppercase">Home</Button>
+          </Link>
+          <Link to="/appointments/create">
+            <Button className="uppercase">Create</Button>
+          </Link>
+        </div>
       </div>
       <div>
         <Table>
@@ -197,7 +202,11 @@ const Appointments: React.FC = () => {
                 <TableCell>{item.status}</TableCell>
                 <TableCell>{item.regFeeStatus}</TableCell>
                 <TableCell className="items-center">
-                  <Button onClick={() => handleEdit(item.appointmentId)} variant="secondary" size="icon">
+                  <Button
+                    onClick={() => handleEdit(item.appointmentId)}
+                    variant="secondary"
+                    size="icon"
+                  >
                     <Edit className="w-4 h-4" />
                   </Button>
                   <Button

@@ -1,11 +1,25 @@
 package com.tharishaperera.services;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.tharishaperera.models.Dentist;
 import com.tharishaperera.models.LoginData;
 import com.tharishaperera.models.Receptionist;
 import com.tharishaperera.utils.SecurityConfig;
+
+class StatusObject {
+    private int status;
+
+    public StatusObject(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+}
 
 @Service
 public class AuthService {
@@ -27,6 +41,8 @@ public class AuthService {
             }
         }
 
-        return null;
+        // StatusObject statusObject = new StatusObject(404);
+        // return statusObject;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found");
     }
 }
