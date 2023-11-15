@@ -41,6 +41,7 @@ public class ScheduleService {
     // create schedule
     public Schedule createSchedule(Schedule schedule) {
         schedule.setScheduleId(Utils.generateId());
+        System.out.println(schedule);
         scheduleList.add(schedule);
         return schedule;
     }
@@ -51,7 +52,7 @@ public class ScheduleService {
         if (existing != null) {
             existing.setDentist(schedule.getDentist());
             existing.setDay(schedule.getDay());
-            existing.setStarTime(schedule.getStarTime());
+            existing.setStartTime(schedule.getStartTime());
             existing.setEndTime(schedule.getEndTime());
         }
         return existing;

@@ -10,6 +10,11 @@ import CreateAppointment from "@/pages/home/appointment/create";
 import { Toaster } from "sonner";
 import UpdateAppointment from "./pages/home/appointment/update";
 import Dentists from "./pages/home/dentist";
+import Patients from "./pages/home/patients";
+import Schedules from "./pages/home/schedules";
+import Invoices from "./pages/home/invoices";
+import ViewInvoice from "./pages/home/invoices/view";
+import Payment from "./pages/home/payments";
 
 function App() {
   return (
@@ -29,11 +34,33 @@ function App() {
               <Route path="update/:id" element={<UpdateAppointment />} />
             </Route>
             {/* Dentists */}
-            {/* <Route path="/dentists">
+            <Route path="/dentists">
               <Route index element={<Dentists />} />
               <Route path="create" element={<CreateAppointment />} />
               <Route path="update/:id" element={<UpdateAppointment />} />
-            </Route> */}
+            </Route>
+            {/* Patients */}
+            <Route path="/patients">
+              <Route index element={<Patients />} />
+              <Route path="create" element={<CreateAppointment />} />
+              <Route path="update/:id" element={<UpdateAppointment />} />
+            </Route>
+            {/* Schedules */}
+            <Route path="/schedules">
+              <Route index element={<Schedules />} />
+              <Route path="create" element={<CreateAppointment />} />
+              <Route path="update/:id" element={<UpdateAppointment />} />
+            </Route>
+            {/* Invoices */}
+            <Route path="/invoices">
+              <Route index element={<Invoices />} />
+              <Route path="view/:id" element={<ViewInvoice />} />
+            </Route>
+            {/* Payments */}
+            <Route path="/payments">
+              <Route index element={<Payment />} />
+              <Route path="view/:id" element={<ViewInvoice />} />
+            </Route>
           </Route>
         </Routes>
         <Toaster />

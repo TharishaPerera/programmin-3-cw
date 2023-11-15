@@ -6,14 +6,14 @@ public class Schedule {
     private Long scheduleId;
     private Dentist dentist;
     private String day;
-    private LocalTime starTime;
+    private LocalTime startTime;
     private LocalTime endTime;
     
-    public Schedule(Long scheduleId, Dentist dentist, String day, LocalTime starTime, LocalTime endTime) {
+    public Schedule(Long scheduleId, Dentist dentist, String day, LocalTime startTime, LocalTime endTime) {
         this.scheduleId = scheduleId;
         this.dentist = dentist;
         this.day = day;
-        this.starTime = starTime;
+        this.startTime = startTime;
         this.endTime = endTime;
     }
     public Long getScheduleId() {
@@ -34,11 +34,11 @@ public class Schedule {
     public void setDay(String day) {
         this.day = day;
     }
-    public LocalTime getStarTime() {
-        return starTime;
+    public LocalTime getStartTime() {
+        return startTime;
     }
-    public void setStarTime(LocalTime starTime) {
-        this.starTime = starTime;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
     public LocalTime getEndTime() {
         return endTime;

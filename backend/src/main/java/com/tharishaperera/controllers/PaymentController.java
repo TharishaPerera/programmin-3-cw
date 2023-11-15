@@ -1,5 +1,7 @@
 package com.tharishaperera.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,12 @@ import com.tharishaperera.services.PaymentService;
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
+
+    // get all payments
+    @GetMapping
+    public List<Payment> getAllPayments() {
+        return paymentService.getAllPayments();
+    }
 
     // get payment by appointment id
     @GetMapping("/{id}")
