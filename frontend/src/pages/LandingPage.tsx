@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { API_URL, scheduleData } from "@/config/config";
+import { API_URL, scheduleData, treatmentTypes } from "@/config/config";
 import { toast } from "sonner";
 
 const handleGetStarted = async () => {
@@ -61,6 +61,20 @@ const handleGetStarted = async () => {
   if (!receptionistResponse.ok) {
     toast.error("Something went wrong while setting receptionist data");
   }
+
+  // set treatment types data
+  treatmentTypes.map(async (item) => {
+    const treatmentTypeResponse = await fetch(API_URL + "/treatment-types", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    if (!treatmentTypeResponse.ok) {
+      toast.error("Something went wrong while setting treatment types data");
+    }
+  });
 
   window.location.href = '/login';
 };

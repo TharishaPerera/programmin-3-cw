@@ -12,6 +12,11 @@ import com.tharishaperera.utils.Utils;
 public class PaymentService {
     private List<Payment> paymentList = new ArrayList<Payment>();
 
+    // get all payments
+    public List<Payment> getAllPayments() {
+        return paymentList;
+    }
+
     // get payment by id
     public Payment getPaymentById(Long id) {
         for (Payment payment : paymentList) {

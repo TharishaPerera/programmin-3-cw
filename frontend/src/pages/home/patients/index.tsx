@@ -21,18 +21,17 @@ interface Data {
   email: string;
   mobile: number;
   userType: string;
-  specialization: string;
-  qualification: string;
-  password: string;
+  address: string;
+  dob: string;
 }
 
-const Dentists = () => {
+const Patients = () => {
   const [data, setData] = useState<Data[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_URL + "/dentists");
+        const response = await fetch(API_URL + "/patients");
         if (!response.ok) {
           toast.error("Something went wrong");
         }
@@ -49,7 +48,7 @@ const Dentists = () => {
   }, []);
 
   const handleDelete = async (userId: number) => {
-    await fetch(API_URL + "/dentists/" + userId, {
+    await fetch(API_URL + "/patients/" + userId, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -63,9 +62,9 @@ const Dentists = () => {
       })
       .then((data) => {
         console.log("Delete successful:", data);
-        toast.error("Dentist deleted successfully");
+        toast.error("Patient deleted successfully");
         const redirectTo = () => {
-          window.location.href = "/dentists";
+          window.location.href = "/patients";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -78,24 +77,27 @@ const Dentists = () => {
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
-        <h2 className="text-center text-2xl font-semibold">Dentists</h2>
+        <h2 className="text-center text-2xl font-semibold">Patients</h2>
         <div className="space-x-2">
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
+          {/* <Link to="/patients/create" className="">
+            <Button className="uppercase">Create</Button>
+          </Link> */}
         </div>
       </div>
       <div>
         <Table>
-          <TableCaption>A list of dentists.</TableCaption>
+          <TableCaption>A list of patients.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Id</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Mobile</TableHead>
-              <TableHead>Specializations</TableHead>
-              <TableHead>Qualifications</TableHead>
+              <TableHead>address</TableHead>
+              <TableHead>Date of Birth</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -106,8 +108,8 @@ const Dentists = () => {
                 <TableCell>{item.firstName + " " + item.lastName}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>{item.mobile}</TableCell>
-                <TableCell>{item.specialization}</TableCell>
-                <TableCell>{item.qualification}</TableCell>
+                <TableCell>{item.address}</TableCell>
+                <TableCell>{item.dob}</TableCell>
                 <TableCell className="items-center">
                   <Button
                     // onClick={() => handleEdit(item.appointmentId)}
@@ -133,4 +135,4 @@ const Dentists = () => {
   );
 };
 
-export default Dentists;
+export default Patients;

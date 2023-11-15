@@ -15,24 +15,24 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 interface Data {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobile: number;
-  userType: string;
-  specialization: string;
-  qualification: string;
-  password: string;
+  scheduleId: number
+  dentist: {
+      userId: number
+      firstName: string
+      lastName: string
+  },
+  day: string
+  startTime: string
+  endTime: string
 }
 
-const Dentists = () => {
+const Schedules = () => {
   const [data, setData] = useState<Data[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_URL + "/dentists");
+        const response = await fetch(API_URL + "/schedules");
         if (!response.ok) {
           toast.error("Something went wrong");
         }
@@ -46,10 +46,12 @@ const Dentists = () => {
     };
 
     fetchData();
+    console.log(data)
   }, []);
 
-  const handleDelete = async (userId: number) => {
-    await fetch(API_URL + "/dentists/" + userId, {
+  const handleDelete = async (id: number) => {
+    console.log(id)
+    await fetch(API_URL + "/schedules/" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -63,9 +65,9 @@ const Dentists = () => {
       })
       .then((data) => {
         console.log("Delete successful:", data);
-        toast.error("Dentist deleted successfully");
+        toast.error("Schedule deleted successfully");
         const redirectTo = () => {
-          window.location.href = "/dentists";
+          window.location.href = "/schedules";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -78,36 +80,39 @@ const Dentists = () => {
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
-        <h2 className="text-center text-2xl font-semibold">Dentists</h2>
+        <h2 className="text-center text-2xl font-semibold">Schedules</h2>
         <div className="space-x-2">
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
+          {/* <Link to="/patients/create" className="">
+            <Button className="uppercase">Create</Button>
+          </Link> */}
         </div>
       </div>
       <div>
         <Table>
-          <TableCaption>A list of dentists.</TableCaption>
+          <TableCaption>A list of schedules.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead>Id</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Mobile</TableHead>
-              <TableHead>Specializations</TableHead>
-              <TableHead>Qualifications</TableHead>
+              <TableHead>Schedule Id</TableHead>
+              <TableHead>Dentist Id</TableHead>
+              <TableHead>Dentist</TableHead>
+              <TableHead>Day</TableHead>
+              <TableHead>From</TableHead>
+              <TableHead>To</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((item, index) => (
               <TableRow key={index}>
-                <TableCell>{item.userId}</TableCell>
-                <TableCell>{item.firstName + " " + item.lastName}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.mobile}</TableCell>
-                <TableCell>{item.specialization}</TableCell>
-                <TableCell>{item.qualification}</TableCell>
+                <TableCell>{item.scheduleId}</TableCell>
+                <TableCell>{item.dentist.userId}</TableCell>
+                <TableCell>{item.dentist.firstName + " " + item.dentist.lastName}</TableCell>
+                <TableCell>{item.day}</TableCell>
+                <TableCell>{item.startTime}</TableCell>
+                <TableCell>{item.endTime}</TableCell>
                 <TableCell className="items-center">
                   <Button
                     // onClick={() => handleEdit(item.appointmentId)}
@@ -117,7 +122,7 @@ const Dentists = () => {
                     <Edit className="w-4 h-4" />
                   </Button>
                   <Button
-                    onClick={() => handleDelete(item.userId)}
+                    onClick={() => handleDelete(item.scheduleId)}
                     variant="secondary"
                     size="icon"
                   >
@@ -133,4 +138,4 @@ const Dentists = () => {
   );
 };
 
-export default Dentists;
+export default Schedules;

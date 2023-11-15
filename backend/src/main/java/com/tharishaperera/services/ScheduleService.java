@@ -51,7 +51,7 @@ public class ScheduleService {
         if (existing != null) {
             existing.setDentist(schedule.getDentist());
             existing.setDay(schedule.getDay());
-            existing.setStarTime(schedule.getStarTime());
+            existing.setStartTime(schedule.getStartTime());
             existing.setEndTime(schedule.getEndTime());
         }
         return existing;
