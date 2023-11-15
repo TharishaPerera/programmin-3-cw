@@ -153,7 +153,6 @@ const Appointments: React.FC = () => {
 
     const updatedAppointment = await updatedAppointmentResponse.json();
 
-    // TODO: create invoice and get payment
     if (checkedIds.length > 0) {
       // get selected treatment types
       const selectedTreatmentTypesResponse = await fetch(
