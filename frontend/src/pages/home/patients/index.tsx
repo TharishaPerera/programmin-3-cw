@@ -1,3 +1,8 @@
+import { Edit, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,10 +14,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   userId: number;
@@ -60,8 +61,7 @@ const Patients = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Delete successful:", data);
+      .then(() => {
         toast.error("Patient deleted successfully");
         const redirectTo = () => {
           window.location.href = "/patients";
@@ -82,9 +82,6 @@ const Patients = () => {
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
-          {/* <Link to="/patients/create" className="">
-            <Button className="uppercase">Create</Button>
-          </Link> */}
         </div>
       </div>
       <div>

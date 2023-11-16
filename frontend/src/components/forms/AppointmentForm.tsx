@@ -1,22 +1,16 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { number, z } from "zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
-import { cn, format } from "@/lib/utils";
 import React from "react";
-import { Separator } from "../ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { z } from "zod";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn, format } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 import { API_URL } from "@/config/config";
 
 const AppointmentSchema = z.object({
@@ -41,12 +35,9 @@ interface Props {
   data?: object
 }
 
-const AppointmentForm: React.FC<Props> = ({ data }) => {
-  console.log("From");
-  console.log(data);
+const AppointmentForm: React.FC<Props> = () => {
 
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -60,7 +51,6 @@ const AppointmentForm: React.FC<Props> = ({ data }) => {
     data.date = appointmentDate?.toISOString().substring(0, 10);
     data.dob = dob?.toISOString().substring(0, 10);
 
-    console.log(data);
     try {
       // first create patient
       const patientResponse = await fetch(API_URL + "/patients", {

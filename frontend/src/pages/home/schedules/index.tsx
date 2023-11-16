@@ -1,3 +1,8 @@
+import { Edit, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,10 +14,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   scheduleId: number
@@ -46,11 +47,9 @@ const Schedules = () => {
     };
 
     fetchData();
-    console.log(data)
   }, []);
 
   const handleDelete = async (id: number) => {
-    console.log(id)
     await fetch(API_URL + "/schedules/" + id, {
       method: "DELETE",
       headers: {
@@ -63,8 +62,7 @@ const Schedules = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Delete successful:", data);
+      .then(() => {
         toast.error("Schedule deleted successfully");
         const redirectTo = () => {
           window.location.href = "/schedules";
@@ -85,9 +83,6 @@ const Schedules = () => {
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
-          {/* <Link to="/patients/create" className="">
-            <Button className="uppercase">Create</Button>
-          </Link> */}
         </div>
       </div>
       <div>

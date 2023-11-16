@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { API_URL } from "@/config/config";
-import { toast } from "sonner";
 
 const LoginSchema = z.object({
   email: z.string().min(1, "Please enter your email address").email(),
@@ -22,7 +22,6 @@ const LoginForm = () => {
   } = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) });
 
   const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
-    console.log(data);
     const loginResponse = await fetch(API_URL + "/auth/login", {
       method: "POST",
       headers: {

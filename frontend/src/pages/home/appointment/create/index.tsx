@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
+
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const CreateAppointment = () => {
   return (

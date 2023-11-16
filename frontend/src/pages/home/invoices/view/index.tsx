@@ -1,9 +1,12 @@
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
+
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -13,9 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { API_URL } from "@/config/config";
 import { format } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   invoiceId: number;
@@ -62,7 +62,6 @@ const ViewInvoice = () => {
   const [payment, setPayment] = useState<Payment>();
   const [selectedValue, setSelectedValue] = useState<string>("");
 
-  console.log("rendering")
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,7 +81,6 @@ const ViewInvoice = () => {
     const fetchPayment = async () => {
       if (data?.appointment) {
         try {
-          console.log("inside if");
           const paymentResponse = await fetch(
             API_URL + "/payments/" + data?.appointment.appointmentId
           );
@@ -104,7 +102,6 @@ const ViewInvoice = () => {
     fetchPayment();
   }, []);
 
-  console.log(data)
   const handlePayment = async () => {
     // create payment
     try {

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,9 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   invoiceId: number;
@@ -75,8 +76,6 @@ const Payment = () => {
     fetchData();
   }, []);
 
-  console.log(JSON.stringify(data));
-
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
@@ -85,9 +84,6 @@ const Payment = () => {
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
-          {/* <Link to="/dentist/create" className="">
-            <Button className="uppercase">Create</Button>
-          </Link> */}
         </div>
       </div>
       <div>

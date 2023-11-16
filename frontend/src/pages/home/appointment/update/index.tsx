@@ -1,9 +1,10 @@
-import AppointmentForm from "@/components/forms/AppointmentForm";
-import { Button } from "@/components/ui/button";
-import { API_URL } from "@/config/config";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
+
+import AppointmentForm from "@/components/forms/AppointmentForm";
+import { Button } from "@/components/ui/button";
+import { API_URL } from "@/config/config";
 
 const UpdateAppointment = () => {
   const { id } = useParams();

@@ -1,9 +1,20 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import {
+  CalendarIcon,
+  Edit,
+  Search,
+  ToggleLeft,
+  ToggleRight,
+  Trash,
+} from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -11,17 +22,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Form, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -38,17 +38,6 @@ import {
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
 import { cn, format } from "@/lib/utils";
-import {
-  CalendarIcon,
-  Edit,
-  Search,
-  ToggleLeft,
-  ToggleRight,
-  Trash,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   appointmentId: number;
@@ -69,7 +58,9 @@ const AppointmentsByDate: React.FC = () => {
   const [data, setData] = useState<Data[]>([]);
   const [treatmentTypes, setTreatmentTypes] = useState<TreatmentType[]>([]);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
-  const [appointmentDate, setAppointmentDate] = React.useState<Date | undefined>(undefined);
+  const [appointmentDate, setAppointmentDate] = React.useState<
+    Date | undefined
+  >(undefined);
 
   const handleCheckboxChange = (treatmentTypeId: number) => {
     setCheckedIds((prevCheckedIds) => {
@@ -115,7 +106,6 @@ const AppointmentsByDate: React.FC = () => {
   }, []);
 
   const handleDelete = async (appointmentId: number) => {
-    console.log(appointmentId);
     await fetch(API_URL + "/appointments/" + appointmentId, {
       method: "DELETE",
       headers: {
@@ -128,8 +118,7 @@ const AppointmentsByDate: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Delete successful:", data);
+      .then(() => {
         toast.error("Appointment deleted successfully");
         const redirectTo = () => {
           window.location.href = "/appointments/by-date";
@@ -236,14 +225,12 @@ const AppointmentsByDate: React.FC = () => {
   };
 
   const handleRegFeeStatus = async (appointmentId: number) => {
-    console.log(appointmentId);
     const response = await fetch(API_URL + "/appointments/" + appointmentId);
     if (!response.ok) {
       toast.error("Something went wrong");
     }
 
     const appointment = await response.json();
-    console.log(appointment);
 
     if (appointment && appointment.regFeeStatus === "PENDING") {
       appointment.regFeeStatus = "COMPLETE";
@@ -264,8 +251,7 @@ const AppointmentsByDate: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Appointment update successful:", data);
+      .then(() => {
         toast.error("Appointment updated successfully");
         const redirectTo = () => {
           window.location.href = "/appointments/by-date";
@@ -282,13 +268,14 @@ const AppointmentsByDate: React.FC = () => {
     window.location.href = "appointments/update/" + appointmentId;
   };
 
-  const loadDataByDate =async () => {
-    const selectedDate = format(appointmentDate!)
-    console.log(selectedDate);
+  const loadDataByDate = async () => {
+    const selectedDate = format(appointmentDate!);
 
     try {
       // appointments
-      const appointmentResponse = await fetch(API_URL + "/appointments/bydate?date=" + selectedDate);
+      const appointmentResponse = await fetch(
+        API_URL + "/appointments/bydate?date=" + selectedDate
+      );
       if (!appointmentResponse.ok) {
         toast.error("Something went wrong");
       }
@@ -297,9 +284,7 @@ const AppointmentsByDate: React.FC = () => {
       setData(appointment);
 
       // treatment types
-      const treatmentTypesResponse = await fetch(
-        API_URL + "/treatment-types"
-      );
+      const treatmentTypesResponse = await fetch(API_URL + "/treatment-types");
       if (!treatmentTypesResponse.ok) {
         toast.error("Something went wrong");
       }
@@ -310,7 +295,7 @@ const AppointmentsByDate: React.FC = () => {
       console.log(error);
       toast.error("Error occurred when data fetching");
     }
-  }
+  };
 
   return (
     <div className="w-screen px-28 space-y-10">
@@ -352,7 +337,9 @@ const AppointmentsByDate: React.FC = () => {
               />
             </PopoverContent>
           </Popover>
-          <Button variant="outline" size="icon" onClick={loadDataByDate}><Search className="w-5 h-5" /></Button>
+          <Button variant="outline" size="icon" onClick={loadDataByDate}>
+            <Search className="w-5 h-5" />
+          </Button>
         </div>
       </div>
       <div>

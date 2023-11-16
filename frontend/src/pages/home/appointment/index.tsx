@@ -1,18 +1,20 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
+import { toast } from "sonner";
+
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Form, FormField, FormItem } from "@/components/ui/form";
 import {
   Table,
   TableBody,
@@ -24,10 +26,6 @@ import {
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
 import { format } from "@/lib/utils";
-import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   appointmentId: number;
@@ -93,7 +91,6 @@ const Appointments: React.FC = () => {
   }, []);
 
   const handleDelete = async (appointmentId: number) => {
-    console.log(appointmentId);
     await fetch(API_URL + "/appointments/" + appointmentId, {
       method: "DELETE",
       headers: {
@@ -106,8 +103,7 @@ const Appointments: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Delete successful:", data);
+      .then(() => {
         toast.error("Appointment deleted successfully");
         const redirectTo = () => {
           window.location.href = "/appointments";
@@ -214,14 +210,12 @@ const Appointments: React.FC = () => {
   };
 
   const handleRegFeeStatus = async (appointmentId: number) => {
-    console.log(appointmentId);
     const response = await fetch(API_URL + "/appointments/" + appointmentId);
     if (!response.ok) {
       toast.error("Something went wrong");
     }
 
     const appointment = await response.json();
-    console.log(appointment);
 
     if (appointment && appointment.regFeeStatus === "PENDING") {
       appointment.regFeeStatus = "COMPLETE";
@@ -242,8 +236,7 @@ const Appointments: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Appointment update successful:", data);
+      .then(() => {
         toast.error("Appointment updated successfully");
         const redirectTo = () => {
           window.location.href = "/appointments";
@@ -386,18 +379,6 @@ const Appointments: React.FC = () => {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-
-                  {/* <Button
-                    onClick={() => handleAppointmentStatus(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    {item.status == "COMPLETE" ? (
-                      <ToggleRight className="w-4 h-4" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                  </Button> */}
                   <Button
                     onClick={() => handleRegFeeStatus(item.appointmentId)}
                     variant="secondary"

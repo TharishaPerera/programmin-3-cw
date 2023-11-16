@@ -1,3 +1,8 @@
+import { Eye } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,10 +14,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { Edit, Eye, Trash } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface Data {
   invoiceId: number;
@@ -78,9 +79,6 @@ const Invoices = () => {
           <Link to="/home">
             <Button className="uppercase">Home</Button>
           </Link>
-          {/* <Link to="/dentist/create" className="">
-            <Button className="uppercase">Create</Button>
-          </Link> */}
         </div>
       </div>
       <div>

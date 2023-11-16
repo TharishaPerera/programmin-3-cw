@@ -1,6 +1,7 @@
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { API_URL, scheduleData, treatmentTypes } from "@/config/config";
-import { toast } from "sonner";
 
 const handleGetStarted = async () => {
 

@@ -1,32 +1,26 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import {
+  Edit,
+  Search,
+  ToggleLeft,
+  ToggleRight,
+  Trash,
+} from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Table,
   TableBody,
@@ -37,18 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { cn, format } from "@/lib/utils";
-import {
-  CalendarIcon,
-  Edit,
-  Search,
-  ToggleLeft,
-  ToggleRight,
-  Trash,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { format } from "@/lib/utils";
 
 interface Data {
   appointmentId: number;
@@ -84,7 +67,6 @@ const AppointmentsById: React.FC = () => {
   };
 
   const handleDelete = async (appointmentId: number) => {
-    console.log(appointmentId);
     await fetch(API_URL + "/appointments/" + appointmentId, {
       method: "DELETE",
       headers: {
@@ -97,8 +79,7 @@ const AppointmentsById: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Delete successful:", data);
+      .then(() => {
         toast.error("Appointment deleted successfully");
         const redirectTo = () => {
           window.location.href = "/appointments/by-date";
@@ -205,14 +186,12 @@ const AppointmentsById: React.FC = () => {
   };
 
   const handleRegFeeStatus = async (appointmentId: number) => {
-    console.log(appointmentId);
     const response = await fetch(API_URL + "/appointments/" + appointmentId);
     if (!response.ok) {
       toast.error("Something went wrong");
     }
 
     const appointment = await response.json();
-    console.log(appointment);
 
     if (appointment && appointment.regFeeStatus === "PENDING") {
       appointment.regFeeStatus = "COMPLETE";
@@ -233,8 +212,7 @@ const AppointmentsById: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Appointment update successful:", data);
+      .then(() => {
         toast.error("Appointment updated successfully");
         const redirectTo = () => {
           window.location.href = "/appointments/by-date";
