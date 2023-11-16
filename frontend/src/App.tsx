@@ -15,6 +15,8 @@ import Schedules from "./pages/home/schedules";
 import Invoices from "./pages/home/invoices";
 import ViewInvoice from "./pages/home/invoices/view";
 import Payment from "./pages/home/payments";
+import AppointmentsByDate from "./pages/home/appointment/byDate";
+import AppointmentsById from "./pages/home/appointment/byId";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
               <Route index element={<Appointments />} />
               <Route path="create" element={<CreateAppointment />} />
               <Route path="update/:id" element={<UpdateAppointment />} />
+              <Route path="by-date" element={<AppointmentsByDate />} />
+              <Route path="by-appointment-id" element={<AppointmentsById />} />
             </Route>
             {/* Dentists */}
             <Route path="/dentists">

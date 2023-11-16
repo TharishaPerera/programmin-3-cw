@@ -10,9 +10,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Form, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Table,
   TableBody,
@@ -23,9 +37,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { format } from "@/lib/utils";
-import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+import { cn, format } from "@/lib/utils";
+import {
+  CalendarIcon,
+  Edit,
+  Search,
+  ToggleLeft,
+  ToggleRight,
+  Trash,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -44,10 +65,11 @@ interface TreatmentType {
   price: number;
 }
 
-const Appointments: React.FC = () => {
+const AppointmentsByDate: React.FC = () => {
   const [data, setData] = useState<Data[]>([]);
   const [treatmentTypes, setTreatmentTypes] = useState<TreatmentType[]>([]);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  const [appointmentDate, setAppointmentDate] = React.useState<Date | undefined>(undefined);
 
   const handleCheckboxChange = (treatmentTypeId: number) => {
     setCheckedIds((prevCheckedIds) => {
@@ -110,7 +132,7 @@ const Appointments: React.FC = () => {
         console.log("Delete successful:", data);
         toast.error("Appointment deleted successfully");
         const redirectTo = () => {
-          window.location.href = "/appointments";
+          window.location.href = "/appointments/by-date";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -208,7 +230,7 @@ const Appointments: React.FC = () => {
       window.location.href = "/invoices/view/" + invoice.invoiceId;
     }
     const redirectTo = () => {
-      window.location.href = "/appointments";
+      window.location.href = "/appointments/by-date";
     };
     setTimeout(redirectTo, 1000);
   };
@@ -246,7 +268,7 @@ const Appointments: React.FC = () => {
         console.log("Appointment update successful:", data);
         toast.error("Appointment updated successfully");
         const redirectTo = () => {
-          window.location.href = "/appointments";
+          window.location.href = "/appointments/by-date";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -260,32 +282,77 @@ const Appointments: React.FC = () => {
     window.location.href = "appointments/update/" + appointmentId;
   };
 
+  const loadDataByDate =async () => {
+    const selectedDate = format(appointmentDate!)
+    console.log(selectedDate);
+
+    try {
+      // appointments
+      const appointmentResponse = await fetch(API_URL + "/appointments/bydate?date=" + selectedDate);
+      if (!appointmentResponse.ok) {
+        toast.error("Something went wrong");
+      }
+
+      const appointment = await appointmentResponse.json();
+      setData(appointment);
+
+      // treatment types
+      const treatmentTypesResponse = await fetch(
+        API_URL + "/treatment-types"
+      );
+      if (!treatmentTypesResponse.ok) {
+        toast.error("Something went wrong");
+      }
+
+      const treatmentTypes = await treatmentTypesResponse.json();
+      setTreatmentTypes(treatmentTypes);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error occurred when data fetching");
+    }
+  }
+
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
-        <h2 className="text-center text-2xl font-semibold">Appointments</h2>
+        <h2 className="text-center text-2xl font-semibold">
+          Filter Appointments By Date
+        </h2>
         <div className="space-x-2">
-          <Link to="/home">
-            <Button className="uppercase">Home</Button>
+          <Link to="/appointments">
+            <Button className="uppercase">Back</Button>
           </Link>
-          <Link to="/appointments/create">
-            <Button className="uppercase">Create</Button>
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <p className="bg-gray-200 py-2 px-4 rounded-lg">Filters</p>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Filter Appointments By</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to='by-date'>Appointment Date</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to='by-appointment-id'>Appointment Id</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        </div>
+      </div>
+      <div>
+        <div className="w-full flex justify-end space-x-1">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-80 justify-start text-left font-normal",
+                  !appointmentDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {appointmentDate ? (
+                  format(appointmentDate)
+                ) : (
+                  <span>Appointment date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={appointmentDate}
+                onSelect={setAppointmentDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <Button variant="outline" size="icon" onClick={loadDataByDate}><Search className="w-5 h-5" /></Button>
         </div>
       </div>
       <div>
@@ -386,18 +453,6 @@ const Appointments: React.FC = () => {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-
-                  {/* <Button
-                    onClick={() => handleAppointmentStatus(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    {item.status == "COMPLETE" ? (
-                      <ToggleRight className="w-4 h-4" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                  </Button> */}
                   <Button
                     onClick={() => handleRegFeeStatus(item.appointmentId)}
                     variant="secondary"
@@ -426,4 +481,4 @@ const Appointments: React.FC = () => {
   );
 };
 
-export default Appointments;
+export default AppointmentsByDate;

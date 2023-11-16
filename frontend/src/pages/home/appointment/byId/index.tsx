@@ -10,9 +10,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Form, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Table,
   TableBody,
@@ -23,9 +37,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { API_URL } from "@/config/config";
-import { format } from "@/lib/utils";
-import { Edit, ToggleLeft, ToggleRight, Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+import { cn, format } from "@/lib/utils";
+import {
+  CalendarIcon,
+  Edit,
+  Search,
+  ToggleLeft,
+  ToggleRight,
+  Trash,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -44,10 +65,11 @@ interface TreatmentType {
   price: number;
 }
 
-const Appointments: React.FC = () => {
-  const [data, setData] = useState<Data[]>([]);
+const AppointmentsById: React.FC = () => {
+  const [data, setData] = useState<Data>();
   const [treatmentTypes, setTreatmentTypes] = useState<TreatmentType[]>([]);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  const [appointmentId, setAppointmentId] = React.useState<string>("");
 
   const handleCheckboxChange = (treatmentTypeId: number) => {
     setCheckedIds((prevCheckedIds) => {
@@ -60,37 +82,6 @@ const Appointments: React.FC = () => {
       }
     });
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // appointments
-        const appointmentResponse = await fetch(API_URL + "/appointments");
-        if (!appointmentResponse.ok) {
-          toast.error("Something went wrong");
-        }
-
-        const appointments = await appointmentResponse.json();
-        setData(appointments);
-
-        // treatment types
-        const treatmentTypesResponse = await fetch(
-          API_URL + "/treatment-types"
-        );
-        if (!treatmentTypesResponse.ok) {
-          toast.error("Something went wrong");
-        }
-
-        const treatmentTypes = await treatmentTypesResponse.json();
-        setTreatmentTypes(treatmentTypes);
-      } catch (error) {
-        console.log(error);
-        toast.error("Error occurred when data fetching");
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleDelete = async (appointmentId: number) => {
     console.log(appointmentId);
@@ -110,7 +101,7 @@ const Appointments: React.FC = () => {
         console.log("Delete successful:", data);
         toast.error("Appointment deleted successfully");
         const redirectTo = () => {
-          window.location.href = "/appointments";
+          window.location.href = "/appointments/by-date";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -208,7 +199,7 @@ const Appointments: React.FC = () => {
       window.location.href = "/invoices/view/" + invoice.invoiceId;
     }
     const redirectTo = () => {
-      window.location.href = "/appointments";
+      window.location.href = "/appointments/by-date";
     };
     setTimeout(redirectTo, 1000);
   };
@@ -246,7 +237,7 @@ const Appointments: React.FC = () => {
         console.log("Appointment update successful:", data);
         toast.error("Appointment updated successfully");
         const redirectTo = () => {
-          window.location.href = "/appointments";
+          window.location.href = "/appointments/by-date";
         };
         setTimeout(redirectTo, 1000);
       })
@@ -260,32 +251,61 @@ const Appointments: React.FC = () => {
     window.location.href = "appointments/update/" + appointmentId;
   };
 
+  const loadDataById = async () => {
+    try {
+      // appointments
+      const appointmentResponse = await fetch(
+        API_URL + "/appointments/" + appointmentId
+      );
+      if (!appointmentResponse.ok) {
+        toast.error("Something went wrong");
+      }
+
+      const appointment = await appointmentResponse.json();
+      setData(appointment);
+
+      // treatment types
+      const treatmentTypesResponse = await fetch(API_URL + "/treatment-types");
+      if (!treatmentTypesResponse.ok) {
+        toast.error("Something went wrong");
+      }
+
+      const treatmentTypes = await treatmentTypesResponse.json();
+      setTreatmentTypes(treatmentTypes);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error occurred when data fetching");
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAppointmentId(event.target.value);
+  };
+
   return (
     <div className="w-screen px-28 space-y-10">
       <div className="flex justify-between items-center">
-        <h2 className="text-center text-2xl font-semibold">Appointments</h2>
+        <h2 className="text-center text-2xl font-semibold">
+          Filter Appointments By Appointment Id
+        </h2>
         <div className="space-x-2">
-          <Link to="/home">
-            <Button className="uppercase">Home</Button>
+          <Link to="/appointments">
+            <Button className="uppercase">Back</Button>
           </Link>
-          <Link to="/appointments/create">
-            <Button className="uppercase">Create</Button>
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <p className="bg-gray-200 py-2 px-4 rounded-lg">Filters</p>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Filter Appointments By</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to='by-date'>Appointment Date</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to='by-appointment-id'>Appointment Id</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        </div>
+      </div>
+      <div>
+        <div className="w-full flex justify-end space-x-1">
+          <Input
+            type="text"
+            placeholder="Appointment Id"
+            value={appointmentId}
+            onChange={handleInputChange}
+            className="w-80"
+          />
+          <Button variant="outline" size="icon" onClick={loadDataById}>
+            <Search className="w-5 h-5" />
+          </Button>
         </div>
       </div>
       <div>
@@ -304,121 +324,115 @@ const Appointments: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>{item.appointmentId}</TableCell>
-                <TableCell>{item.appointmentDate}</TableCell>
-                <TableCell>{item.appointmentTime}</TableCell>
-                <TableCell>
-                  {item.patient.firstName + " " + item.patient.lastName}
-                </TableCell>
-                <TableCell>{item.patient.mobile}</TableCell>
-                <TableCell>{item.status}</TableCell>
-                <TableCell>{item.regFeeStatus}</TableCell>
-                <TableCell className="items-center">
-                  <Button
-                    onClick={() => handleEdit(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Button>
+            <TableRow>
+              <TableCell>{data?.appointmentId}</TableCell>
+              <TableCell>{data?.appointmentDate}</TableCell>
+              <TableCell>{data?.appointmentTime}</TableCell>
+              <TableCell>
+                {data
+                  ? data?.patient?.firstName + " " + data?.patient?.lastName
+                  : ""}
+              </TableCell>
+              <TableCell>{data?.patient?.mobile}</TableCell>
+              <TableCell>{data?.status}</TableCell>
+              <TableCell>{data?.regFeeStatus}</TableCell>
+              <TableCell className="items-center">
+                {data && (
+                  <>
+                    <Button
+                      onClick={() => handleEdit(data?.appointmentId!)}
+                      variant="secondary"
+                      size="icon"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </Button>
 
-                  <AlertDialog>
-                    <AlertDialogTrigger>
-                      {item.status == "COMPLETE" ? (
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        {data?.status == "COMPLETE" ? (
+                          <ToggleRight className="w-4 h-4" />
+                        ) : (
+                          <ToggleLeft className="w-4 h-4" />
+                        )}
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {data?.status == "PENDING"
+                              ? "Select Treatments"
+                              : "Change Status"}
+                          </AlertDialogTitle>
+                          <div>
+                            {data?.status == "PENDING" && (
+                              <div className="space-y-2">
+                                {treatmentTypes.map((item, index) => (
+                                  <div key={index} className="space-x-2">
+                                    <input
+                                      className="accent-black"
+                                      type="checkbox"
+                                      id={item.treatmentName}
+                                      checked={checkedIds.includes(
+                                        item.treatmentTypeId
+                                      )}
+                                      onChange={() =>
+                                        handleCheckboxChange(
+                                          item.treatmentTypeId
+                                        )
+                                      }
+                                    />
+                                    <label htmlFor={item.treatmentName}>
+                                      {item.treatmentName}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          {data?.status == "PENDING" ? (
+                            <AlertDialogAction
+                              onClick={() =>
+                                handleAppointmentStatus(data?.appointmentId)
+                              }
+                            >
+                              Complete
+                            </AlertDialogAction>
+                          ) : (
+                            <AlertDialogAction
+                              onClick={() =>
+                                handleAppointmentStatus(data?.appointmentId!)
+                              }
+                            >
+                              Pending
+                            </AlertDialogAction>
+                          )}
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button
+                      onClick={() => handleRegFeeStatus(data?.appointmentId!)}
+                      variant="secondary"
+                      size="icon"
+                    >
+                      {data?.regFeeStatus == "COMPLETE" ? (
                         <ToggleRight className="w-4 h-4" />
                       ) : (
                         <ToggleLeft className="w-4 h-4" />
                       )}
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          {item.status == "PENDING"
-                            ? "Select Treatments"
-                            : "Change Status"}
-                        </AlertDialogTitle>
-                        <div>
-                          {item.status == "PENDING" && (
-                            <div className="space-y-2">
-                              {treatmentTypes.map((item, index) => (
-                                <div key={index} className="space-x-2">
-                                  <input
-                                    className="accent-black"
-                                    type="checkbox"
-                                    id={item.treatmentName}
-                                    checked={checkedIds.includes(
-                                      item.treatmentTypeId
-                                    )}
-                                    onChange={() =>
-                                      handleCheckboxChange(item.treatmentTypeId)
-                                    }
-                                  />
-                                  <label htmlFor={item.treatmentName}>
-                                    {item.treatmentName}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        {item.status == "PENDING" ? (
-                          <AlertDialogAction
-                            onClick={() =>
-                              handleAppointmentStatus(item.appointmentId)
-                            }
-                          >
-                            Complete
-                          </AlertDialogAction>
-                        ) : (
-                          <AlertDialogAction
-                            onClick={() =>
-                              handleAppointmentStatus(item.appointmentId)
-                            }
-                          >
-                            Pending
-                          </AlertDialogAction>
-                        )}
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-
-                  {/* <Button
-                    onClick={() => handleAppointmentStatus(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    {item.status == "COMPLETE" ? (
-                      <ToggleRight className="w-4 h-4" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                  </Button> */}
-                  <Button
-                    onClick={() => handleRegFeeStatus(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    {item.regFeeStatus == "COMPLETE" ? (
-                      <ToggleRight className="w-4 h-4" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                  </Button>
-                  <Button
-                    onClick={() => handleDelete(item.appointmentId)}
-                    variant="secondary"
-                    size="icon"
-                  >
-                    <Trash className="w-4 h-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                    </Button>
+                    <Button
+                      onClick={() => handleDelete(data?.appointmentId!)}
+                      variant="secondary"
+                      size="icon"
+                    >
+                      <Trash className="w-4 h-4" />
+                    </Button>
+                  </>
+                )}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
@@ -426,4 +440,4 @@ const Appointments: React.FC = () => {
   );
 };
 
-export default Appointments;
+export default AppointmentsById;
