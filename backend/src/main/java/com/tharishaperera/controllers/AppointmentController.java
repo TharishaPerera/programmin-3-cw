@@ -45,6 +45,12 @@ public class AppointmentController {
         return appointmentService.getAppointmentsByDate(date);
     }
 
+    // get appointment by patient name
+    @GetMapping("/byname")
+    public List<Appointment> getAppointmentsByPatientName(@RequestParam String name) {
+        return appointmentService.getAppointmentsByPatientName(name);
+    }
+
     // create new appointment
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment) {

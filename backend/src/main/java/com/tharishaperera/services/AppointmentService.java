@@ -31,7 +31,24 @@ public class AppointmentService {
 
     // get appointments by date
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
-        return appointmentList.stream().filter(appointment -> appointment.getAppointmentDate().equals(date)).collect(Collectors.toList());
+        return appointmentList.stream().filter(appointment -> appointment.getAppointmentDate().equals(date))
+                .collect(Collectors.toList());
+    }
+
+    // get appointments by patient name
+    public List<Appointment> getAppointmentsByPatientName(String name) {
+        List<Appointment> appointments = new ArrayList<Appointment>();
+        for (Appointment appointment: appointmentList) {
+            String patientName = appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName();
+            if (patientName.toLowerCase().contains(name.toLowerCase())) {
+                appointments.add(appointment);
+            }
+        }
+        if (appointments.isEmpty()) {
+            return null;
+        } else {
+            return appointments;
+        }
     }
 
     // create new appointment
@@ -66,6 +83,6 @@ public class AppointmentService {
     // delete appointment
     public boolean deleteAppointment(Long id) {
         boolean deleteStatus = appointmentList.removeIf(appointment -> appointment.getAppointmentId().equals(id));
-        return deleteStatus; 
+        return deleteStatus;
     }
 }
