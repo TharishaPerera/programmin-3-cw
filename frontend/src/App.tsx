@@ -17,6 +17,7 @@ import ViewInvoice from "./pages/home/invoices/view";
 import Payment from "./pages/home/payments";
 import AppointmentsByDate from "./pages/home/appointment/byDate";
 import AppointmentsById from "./pages/home/appointment/byId";
+import AppointmentsByName from "./pages/home/appointment/byName";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="update/:id" element={<UpdateAppointment />} />
               <Route path="by-date" element={<AppointmentsByDate />} />
               <Route path="by-appointment-id" element={<AppointmentsById />} />
+              <Route path="by-name" element={<AppointmentsByName />} />
             </Route>
             {/* Dentists */}
             <Route path="/dentists">
