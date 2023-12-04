@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { API_URL } from "@/config/config";
+import AppointmentFormNew from "@/components/forms/AppointmentForm.new";
 
 const UpdateAppointment = () => {
   const { id } = useParams();
@@ -38,7 +39,8 @@ const UpdateAppointment = () => {
         </Link>
       </div>
       <div>
-        <AppointmentForm data={data} />
+        {/* <AppointmentForm data={data} /> */}
+        <AppointmentFormNew />
       </div>
     </div>
   );
